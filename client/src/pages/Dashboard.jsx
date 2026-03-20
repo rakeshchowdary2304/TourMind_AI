@@ -269,7 +269,7 @@ const Dashboard = () => {
 
         // Connect Socket
         import('socket.io-client').then(({ io }) => {
-            socketRef.current = io();
+            socketRef.current = io(import.meta.env.VITE_API_URL || '/');
 
             socketRef.current.on('dangerAlert', (alert) => {
                 setActiveAlert(alert);

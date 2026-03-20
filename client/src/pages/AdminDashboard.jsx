@@ -161,7 +161,7 @@ const AdminDashboard = () => {
 
     // Socket Init
     useEffect(() => {
-        const newSocket = io();
+        const newSocket = io(import.meta.env.VITE_API_URL || '/');
         setSocket(newSocket);
         newSocket.emit('joinAdmin');
 

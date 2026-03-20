@@ -20,17 +20,23 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigin = process.env.CLIENT_URL || '*';
+
 const io = new Server(server, {
     cors: {
-        origin: "*", // Allow all for dev simplicity, restrict in prod
-        methods: ["GET", "POST"]
+        origin: allowedOrigin,
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
 // Make io accessible to Routes/Controllers
 app.set('io', io);
 
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true
+}));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
